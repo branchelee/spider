@@ -28,7 +28,7 @@ mail_pass="lxyx520123"   #口令
 
 
 sender = '08281159@bjtu.edu.cn'
-receivers = ['13883970320@139.com']  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
+receivers = ['lxyx520123@163.com']  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
 
 
 message = MIMEMultipart()
