@@ -94,8 +94,3 @@ saveImgFromURL(url12)
 
 
 
-
-
-
-	#saveImg(z)
-# urllib.urlretrieve("http://www.beautylegmm.com//photo/beautyleg/2016/1319/beautyleg-1319-0001.jpg",r"/Users/branche/Desktop/tmp/"+str(123)+".jpg")
