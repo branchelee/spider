@@ -22,11 +22,13 @@ pagenum = 1
 pagestart = 1319
 pageend = 1300
 
+#当前使用的url
+urlnow = url11
 
 # r = requests.get('https://www.google.com')
 #print r.text
 filename = 1
-
+#获取页面html内容
 def getHtml(url):
     page = urllib.urlopen(url)
     html = page.read()
@@ -38,15 +40,16 @@ def geturllist(html):
 	urlre = re.compile(regurl)
 	urllist = re.findall(urlre,html)
 	return urllist
-
+#获取页面内图片链接
 def getImg(html):
+	# global urlnow
     # reg = r'img src="(.+?\.jpg)" pic_ext'  
     reg = r'src="(.+?\.jpg)"'
     # reg = r'src="(.+?\.jpg)"'
     imgre = re.compile(reg)
     imglist = re.findall(imgre,html)
     for i in range(0,len(imglist)):   
-    	imglist[i] = "http://www.77tuba.com/"+imglist[i]
+    	imglist[i] = urlnow+imglist[i]
     	print imglist[i]
     return imglist
 
@@ -60,34 +63,22 @@ def saveImgFromURL(url):
 	for i in img:
 		print i
 		filename = random.randrange(1000000,2000000)
-		urllib.urlretrieve(i,r"/Users/branche/Desktop/tmp/3"+str(filename)+".jpg")
+		urllib.urlretrieve(i,r"./"+str(filename)+".jpg")
 	return url
+#从图片list里面批量下载图片
 def saveImgFromList(list):
 	for i in list:
 		print i
 		filename = random.randrange(1000000,2000000)
-		urllib.urlretrieve(i,r"/Users/branche/Desktop/tmp/3"+str(filename)+".jpg")
+		urllib.urlretrieve(i,r"./"+str(filename)+".jpg")
 	return url
 
 #下载指定URL的图片程序
-# for n in range(1317,1319):
-# 	url11 = "http://www.beautylegmm.com/Dora/beautyleg-%d.html" %pagestart
-# 	print "trying to fetch page %d"%n
-# 	saveImg(url11)
+for n in range(1250,1350):
+	url11 = "http://www.beautylegmm.com/Dora/beautyleg-%d.html" %pagestart
+	print "trying to fetch page %d"%n
+	saveImgFromURL(url11)
 
-#下载列表中的图片
-page = requests.get(url12)
-if len(page.text)>10:
-	print "page is not null"
-# print page.text
-#获取当前页面的链接向URL(末尾为4位数字)
-urllist = geturllist(page.text)
-
-urllist = list(set(urllist))#去除重复
-print "url list2 is :",urllist
-for z in urllist:
-	print "trying to fetch",z
-saveImgFromURL(url12)
 
 
 

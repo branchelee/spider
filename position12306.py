@@ -21,13 +21,13 @@ station_names ='@bjb|北京北|VAP|beijingbei|bjb|0@bjd|北京东|BOP|beijingdon
 list_station_names = re.split(r'\|', station_names)
 # 分割test，每个中文列表后面的就是他的英文
 def find_position_names(station_names_chn):
-
+	global list_station_names
 	while len(list_station_names) >0:
 		# station_names_chn = raw_input('please in put:')
 		n = 0
 		while n < len(list_station_names):
 			if list_station_names[n] == station_names_chn:
-				print 'find succeed:'list_station_names[n+1]
+				print 'find succeed:',list_station_names[n+1]
 				return list_station_names[n+1]
 				break
 			n = n + 1
