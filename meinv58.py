@@ -1,12 +1,12 @@
 # -*- coding: UTF-8 -*-  
 #实现自动抓取网站首页中，链接向XXXX.HTM页面内的图片meinv58
-import os,re,urllib,uuid
+import os,re,urllib,uuid,time
 import urllib
 import urllib2
 import requests
 import random
-import bs4
-#子页面
+from bs4 import BeautifulSoup
+ #子页面
 
 
 url12 = "http://www.77tuba.com/1058/201608/78268.shtml"
@@ -58,14 +58,31 @@ def saveImgFromURL(url):
 	for i in img:
 		# print i
 		filename = random.randrange(1000000,2000000)
-		urllib.urlretrieve(i,r"./img58/all/"+str(filename)+".jpg")
+		urllib.urlretrieve(i,r"./img58/3/"+str(filename)+".jpg")
+	return url
+def saveImgFromURL_BS(url,filenamestart,filename):
+	#用beautiful库下载图片
+	r = urllib.urlopen(url)
+	bsobj = BeautifulSoup(r,'lxml')
+	imglist = bsobj.findAll('img',width='700')
+	for i in imglist:
+		# print i
+		# filename = random.randrange(100,200)
+
+		try:
+			urllib.urlretrieve(i['src'],r"./img58/3/"+str(filenamestart)+'_'+str(filename)+".jpg")
+
+		except Exception, e:
+			raise
+
+		
 	return url
 #从图片list里面批量下载图片
 def saveImgFromList(list):
 	for i in list:
 		# print 'downloading',i 
 		filename = random.randrange(1000000,2000000)
-		urllib.urlretrieve(i,r"./img58/all/"+str(filename)+".jpg")
+		urllib.urlretrieve(i,r"./img58/3/"+str(filename)+".jpg")
 #找到当前页面总共有多少个下一页
 def getTotalPage(html):
 	reg = r'共.+?页'
@@ -86,21 +103,24 @@ urlparent1 = 'http://www.meinv58.com/xinggan/page/1'
 urlparent2 = 'http://www.meinv58.com/xinggan/page/2'
 urlparent3 = 'http://www.meinv58.com/tag/熊吖bobo'
 urlparent4 = 'http://www.meinv58.com/xinggan/page/4'
-for phonum in range (2800,2980):
-	urlparentall = 'http://www.meinv58.com/xinggan/%d' % phonum
-	html = getHtml(urlparentall)
-	urllist = geturllist(html[8000:33000])
-	for x in urllist:
-		print 'downloading child page',x
-		#将X进行组装
-		for n in range (1,11):
-			urlnow = x + '/%d' % n
-			try:
-				saveImgFromURL(urlnow)
-			except Exception, e:
-				print e
-			else:
-				pass
+
+for totalpage in range(2400,2990):
+	for childpagenum in range (1,11):
+		urlnow = 'http://www.meinv58.com/xinggan/%d/%d' % (totalpage,childpagenum)
+
+		print 'downloading',urlnow
+		try:
+			filename = childpagenum
+			saveImgFromURL_BS(urlnow,totalpage,filename)
+			time.sleep(0.1)
+		except Exception, e:
+			pass
+		else:
+			pass
+		finally:
+			pass
+		
+
 
 
 
